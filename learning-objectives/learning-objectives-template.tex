@@ -1,0 +1,166 @@
+\documentclass[11pt, oneside]{article}   	
+\usepackage{geometry}                		
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+\usepackage{framed}
+\usepackage{xcolor}
+%\usepackage{fullpage}
+
+% define some colors
+\definecolor{my-yellow}{HTML}{ECD078}
+\definecolor{my-orange}{HTML}{D95B43}
+\definecolor{my-red}{HTML}{C02942}
+\definecolor{my-purple}{HTML}{542437}
+\definecolor{my-teal}{HTML}{53777A}
+\definecolor{my-teal2}{HTML}{008E9C}
+
+\colorlet{strand}{my-teal2}
+\colorlet{threshold}{my-teal2}
+\colorlet{objective}{my-purple}
+\colorlet{subobjective}{my-orange}
+\colorlet{leftbar}{my-yellow}
+\colorlet{example}{my-teal!85!white}
+
+
+%
+% LaTeX magic to create a new enumerate environment
+%
+\usepackage{xparse}
+\usepackage[inline]{enumitem}
+\usepackage{framed}
+\makeatletter
+	% custom counters
+	\newcounter{objective}
+	\def\objectives@strand{}
+	\def\objectives@threshold{}
+	\newcommand{\thestrand}{\objectives@strand}
+	\newcommand{\thethreshold}{\objectives@threshold}
+
+	\newcommand{\formatstranditem}{%
+		{\color{strand}{\sffamily\thestrand}}%
+	}
+	\DeclareDocumentCommand{\strand}{o +m}{%
+		\gdef\objectives@strand{#1}%
+		\par\vspace{.7cm}
+		{\Large\textbf{(\formatstranditem)} \hspace{.3cm}\textbf{#2}}\par
+	}
+	\newcommand{\formatstranditemTextOnly}{\thestrand.\thethreshold}
+	\newcommand{\formatthresholditem}{%
+		{\color{threshold}{\sffamily\formatstranditemTextOnly}}
+	}
+	\DeclareDocumentCommand{\threshold}{o +m}{%
+		\gdef\objectives@threshold{#1}%
+		\def\@currentlabel{\formatstranditemTextOnly}% make a \label command work after a question
+		\par\formatthresholditem \textbf{#2}\par
+	}
+	\newcommand{\formatthresholditemTextOnly}{\thestrand.\thethreshold.\theobjective}
+	\newcommand{\formatobjectivesitem}{%
+		{\color{objective}{\sffamily\small\formatthresholditemTextOnly}}
+	}
+	\DeclareDocumentEnvironment{objectives}{o}{
+		\nopagebreak%
+		\begin{list}{\formatobjectivesitem}{
+			\usecounter{objective}
+			\setlength{\leftmargin}{1.5cm}
+			\setlength{\itemsep}{0cm}
+			\setlength{\topsep}{0cm}
+			\renewcommand\p@enumi{\formatthresholditemTextOnly\ } % this does not do what I want...
+			\renewcommand\p@enumii{\formatthresholditemTextOnly\ }
+		}
+		\advance\@enumdepth\@ne
+	}{
+		\end{list}%
+	}
+
+	\DeclareDocumentEnvironment{subobjectives}{}{%
+		\begin{enumerate*}[label={\color{subobjective}{\sffamily(\alph*)}}]
+	}{
+		\end{enumerate*}
+	}
+	\DeclareDocumentCommand{\example}{+m}{%
+		{\color{example}{(e.g\mbox{.} {#1})}}%
+	}
+	\DeclareDocumentCommand{\indentpar}{+m}{%
+		\hspace{1cm}\begin{minipage}{\dimexpr\textwidth-1cm}%
+			#1%
+		\end{minipage}%
+	}
+	\renewenvironment{leftbar}{%
+		\def\FrameCommand{{\color{leftbar}{\vrule width 3pt \hspace{10pt}}}}%
+		\MakeFramed {\advance\hsize-\width \FrameRestore}%
+	}{\endMakeFramed}
+
+\makeatother
+%
+%
+%
+
+
+\newcommand{\red}[1] {{\color{red} #1}}
+
+
+
+						
+\begin{document}
+
+\section*{\LARGE Learning Objectives}
+
+These learning objectives are organized in the following hierarchy.
+
+\vspace{.2cm}
+\begin{leftbar}
+\indentpar{
+	\vspace{-.7cm}
+	\strand[S]{Strand} This is a broad categorization, and all
+	strands are interconnected by providing necessary technical tools or
+	motivation to others.
+
+	\indentpar{
+		\vspace{.2cm}
+		\threshold[Thresh]{Threshold Concept} This is
+			a more focused categorization of objectives. In the interest
+			of time, specific learning objectives may be skipped, but all
+			threshold concepts must be covered to create a comprehensive
+			course.
+			\vspace{.1cm}
+			\begin{objectives}
+				\item Learning
+				Objective. These are specific topics, often presented
+				with examples, and should be used to construct parts of
+				lectures and individual exam questions.
+			\end{objectives}
+	}
+}
+\end{leftbar}
+\vspace{.2cm}
+
+Some general description\ldots
+
+\vspace{.25in}
+		
+
+\strand[E]{Example Objectives}
+	\threshold[Try]{Try Out Some Thresholds}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item Sub-objectives.
+			\item And other sub-objectives.
+			\item And yet more.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Another one.
+			\item And yet more.
+		\end{subobjectives}
+	\end{objectives}
+	
+
+
+\end{document}  

@@ -1,0 +1,237 @@
+\documentclass{problemset}
+\usepackage{amsmath}
+
+\usepackage{lipsum}
+%\usepackage{showframe}
+\usepackage{layout}
+
+
+\usepackage[charter,cal=cmcal]{mathdesign} %different font
+\usepackage{microtype}
+\usepackage{amsmath}
+%\usepackage{amsfonts}
+%\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage[inline]{enumitem}
+\usepackage{xparse}
+\usepackage{ifthen}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{color}
+\usepackage{tikz}
+\usepackage{fancyhdr}
+\usepackage{calc}
+\usepackage[hidelinks]{hyperref}
+
+\usepackage{pgfplots}
+\pgfplotsset{compat=newest}
+%%%
+% Useful Linear Algebra macros
+%%%
+\newcommand{\ul}{$\underline{\phantom{xxx}}$}
+\newcommand{\ull}{\underline{\phantom{xxx}}}
+\newcommand{\xh}{{\hat {\mathbf x}}}
+\newcommand{\yh}{{\hat {\mathbf y}}}
+\newcommand{\zh}{{\hat {\mathbf z}}}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\Z}{\mathbb{Z}}
+\newcommand{\N}{\mathbb{N}}
+\newcommand{\proj}{\mathrm{proj}}
+\newcommand{\Proj}{\mathrm{proj}}
+\newcommand{\Perp}{\mathrm{perp}}
+\renewcommand{\span}{\mathrm{span}\,}
+\newcommand{\Span}{\mathrm{span}\,}
+\newcommand{\Img}{\mathrm{img}\,}
+\newcommand{\Null}{\mathrm{null}\,}
+\newcommand{\Range}{\mathrm{range}\,}
+\newcommand{\rref}{\mathrm{rref}}
+\newcommand{\rank}{\mathrm{rank}}
+\newcommand{\Rank}{\mathrm{rank}}
+\newcommand{\nnul}{\mathrm{nullity}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\chr}{\mathrm{char}}
+\renewcommand{\d}{\mathrm{d}}
+
+%\tcbuselibrary{skins}
+%\usetikzlibrary{shadings}
+
+
+%%%
+% Set up the margins to use a fairly large area of the page
+%%%
+\textwidth=6in
+\topmargin=-1in
+\textheight=10in
+\parskip=.07in
+\parindent=0in
+
+\begin{document}
+\pagestyle{empty}
+
+\begin{center}
+{\huge\bf Inquiry Based Vector Calculus}\\
+
+\vspace{.7in}
+{
+\it \copyright\,Jason Siefken, 2016 \\
+Creative Commons By-Attribution Share-Alike\, \makebox(30,5){\includegraphics[height=1.2em]{by-sa.pdf}}
+}
+\end{center}
+
+\section*{About the Document}
+
+	This document was originally designed in the spring of 2016 to guide students
+	through an ten week Linear Algebra course (Math 281-3) at
+	Northwestern University.  
+
+	A typical class day using the problem-sets:
+	\begin{enumerate}
+		\item {\bf Introduction by instructor.} This may involve giving a definition,
+			a broader context for the day's topics, or answering questions.
+		\item {\bf Students work on problems.} Students work individually or in pairs
+			on the prescribed problem.  During this time the instructor moves around
+			the room addressing questions that students may have and giving one-on-one
+			coaching.
+		\item {\bf Instructor intervention.} If most students have successfully solved the 
+			problem, the instructor regroups the class by providing a concise 
+			explanation so that everyone is ready to move to the next concept.  This
+			is also time for the instructor to ensure that everyone has understood the
+			main point of the exercise (since it is sometimes easy to do some computation
+			while being oblivious to the larger context).
+
+			If students are having trouble, the instructor can give hints to the group,
+			and additional guidance to ensure the students don't get frustrated
+			to the point of giving up.
+		\item {\bf Repeat step 2.}
+	\end{enumerate}
+
+	Using this format, students are working (and happily so) most of the class.
+	Further, they are especially primed to hear the insights of the instructor, 
+	having already invested substantially into each problem.
+
+	This problem-set is geared towards concepts instead of computation, though some problems
+	focus on simple computation.
+
+	{\bf License}  This document is licensed under the Creative Commons
+	By-Attribution Share-Alike License.  That means, you are free to use,
+	copy, and modify this document provided that you provide attribution
+	to the previous copyright holders and you release your derivative work 
+	under the same license.  Full text of the license is at \url{http://creativecommons.org/licenses/by-sa/4.0/}
+
+	If you modify this document, you may add your name to the copyright list.  Also,
+	if you think your contributions would be helpful to others, consider making a pull
+	requestion, or opening an \emph{issue} at 
+	\url{https://github.com/siefkenj/IBLLinearAlegbra}
+
+
+\newpage
+
+\setcounter{page}{1}
+\pagestyle{fancy}
+\rfoot{\footnotesize\it \copyright\,Jason Siefken, 2015--2016 \ \makebox(30,5){\includegraphics[height=1.2em]{by-sa.pdf}}}
+\renewcommand{\headrulewidth}{0pt}
+
+\section*{Linear Combinations, Span, and Linear Independence}
+	\vspace{-1em}
+
+	\begin{definition}[Linear Combination]
+		A \emph{linear combination} of the vectors $\vec v_1,\vec v_2,\ldots,\vec v_n$ is
+		a vector
+		\[
+			\vec w = \alpha_1\vec v_1+\alpha_2\vec v_2+\cdots+\alpha_n\vec v_n
+		\]
+		where $\alpha_1,\alpha_2,\ldots,\alpha_n$ are scalars.
+	\end{definition}
+
+	\question
+	Let $\vec v_1=\begin{bmatrix}1\\1\end{bmatrix}$, $\vec v_2=\begin{bmatrix}1\\-1\end{bmatrix}$, and $\vec w=2\vec v_1+\vec v_2$.
+	\begin{parts}
+		\item Write the coordinates of $\vec w$.
+		\item Draw a picture with $\vec w$, $\vec v_1$, and $\vec v_2$.
+		\item Is $\mat{3\\3}$ a linear combination of $\vec v_1$ and $\vec v_2$?
+		\item Is $\mat{0\\0}$ a linear combination of $\vec v_1$ and $\vec v_2$?
+		\item Is $\mat{4\\0}$ a linear combination of $\vec v_1$ and $\vec v_2$?
+		\item Can you find a vector in $\R^2$ that isn't a linear combination of
+		$\vec v_1$ and $\vec v_2$?
+		\item Can you find a vector in $\R^2$ that isn't a linear combination of
+		$\vec v_1$?
+	\end{parts}
+	
+	\begin{definition}[Span]
+		The \emph{span} of a set of vectors $V$ is the set of
+		all linear combinations of vectors in $V$.  
+	\end{definition}
+
+	\question
+	Let $\vec v_1=\mat{1\\1}$, $\vec v_2=\mat{1\\-1}$, and $\vec v_3=\mat{2\\2}$.
+	\begin{parts}
+		\item Draw $\Span\{\vec v_1\}$.
+		\item Draw $\Span\{\vec v_2\}$.
+		\item Describe $\Span\{\vec v_1,\vec v_2\}$.
+		\item Describe $\Span\{\vec v_1,\vec v_3\}$.
+		\item Describe $\Span\{\vec v_1,\vec v_2,\vec v_3\}$.
+	\end{parts}
+
+	\question
+	Give an example of:
+	\begin{parts}
+		\item two vectors in $\R^3$ that span a plane;
+		\item two vectors in $\R^3$ that span a line;
+		\item four vectors in $\R^3$ that span a plane;
+		\item a set of 50 vectors in $\R^3$ whose span is the line
+		through the origin and the point $\mat{1\\2\\-3}$. \\
+	\end{parts}
+
+	In some sets, every vector is essential for computing a span.  In others,
+	there are ``excess'' vectors.  This leads us to the concept of 
+	linear independence.
+
+	\begin{definition}[Linearly Dependent \& Independent]
+		We say $\{\vec v_1,\vec v_2,\ldots,\vec v_n\}$ is
+		\emph{linearly dependent} if for at least one $i$,
+		\[
+			\vec v_i\in\span\{\vec v_1,\vec v_2,\ldots,\vec v_{i-1},
+			\vec v_{i+1},\ldots,\vec v_n\},
+		\]
+		and a set is \emph{linearly independent} otherwise.
+	\end{definition}
+
+	\begin{theorem}[Rank-nullity Theorem]
+	The \emph{nullity} of a matrix is the dimension of the null space.
+
+	The rank-nullity theorem states
+	\[
+		\rank(A)+\nnul(A) = \#\text{ of columns in }A.
+	\]
+	\end{theorem}
+
+	\question
+	The vectors $\vec u,\vec v\in\R^9$ are linearly independent and $\vec w=2\vec u-\vec v$.
+	Define $A=[\vec u|\vec v|\vec w]$.
+	\begin{parts}
+		\item What is the rank and nullity of $A^T$?
+		\item What is the rank and nullity of $A$?
+	\end{parts}
+
+
+	\begin{lemma}[Rank-nullity Lemma]
+	The \emph{nullity} of a matrix is the dimension of the null space.
+
+	The rank-nullity theorem states
+	\[
+		\rank(A)+\nnul(A) = \#\text{ of columns in }A.
+	\]
+	\end{lemma}
+	
+	\question
+	More question
+	\begin{parts}
+		\item What is the rank and nullity of $A^T$?
+		\item What is the rank and nullity of $A$?
+	\end{parts}
+	And a break
+	\begin{parts}[resume]
+		\item And a continuation of parts.
+	\end{parts}
+\end{document}

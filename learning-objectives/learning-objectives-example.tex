@@ -1,0 +1,595 @@
+\documentclass[11pt, oneside]{article}   	
+\usepackage{geometry}                		
+\geometry{letterpaper}
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage[parfill]{parskip}
+\usepackage[hidelinks]{hyperref}
+\usepackage{pdfpages}
+\usepackage{framed}
+\usepackage{xcolor}
+%\usepackage{fullpage}
+
+
+\usepackage{fancyhdr}
+\oddsidemargin=.2in
+\evensidemargin=.2in
+\textwidth=6in
+\topmargin=-.5in
+\textheight=9.0in
+\parskip=.07in
+\parindent=0in
+\pagestyle{fancy}
+\rfoot{\footnotesize\it \copyright\,Jason Siefken \& Ross Sweet, 2016 \ \makebox(30,5){\includegraphics[height=1.2em]{by-sa.pdf}}}
+
+% define some colors
+\definecolor{my-yellow}{HTML}{ECD078}
+\definecolor{my-orange}{HTML}{D95B43}
+\definecolor{my-red}{HTML}{C02942}
+\definecolor{my-purple}{HTML}{542437}
+\definecolor{my-teal}{HTML}{53777A}
+\definecolor{my-teal2}{HTML}{008E9C}
+
+\colorlet{strand}{my-teal2}
+\colorlet{threshold}{my-teal2}
+\colorlet{objective}{my-purple}
+\colorlet{subobjective}{my-orange}
+\colorlet{leftbar}{my-yellow}
+\colorlet{example}{my-teal!85!white}
+
+
+%
+% LaTeX magic to create a new enumerate environment
+%
+\usepackage{xparse}
+\usepackage[inline]{enumitem}
+\usepackage{framed}
+\makeatletter
+	% custom counters
+	\newcounter{objective}
+	\def\objectives@strand{}
+	\def\objectives@threshold{}
+	\newcommand{\thestrand}{\objectives@strand}
+	\newcommand{\thethreshold}{\objectives@threshold}
+
+	\newcommand{\formatstranditem}{%
+		{\color{strand}{\sffamily\thestrand}}%
+	}
+	\DeclareDocumentCommand{\strand}{o +m}{%
+		\gdef\objectives@strand{#1}%
+		\par\vspace{.7cm}
+		{\Large\textbf{(\formatstranditem)} \hspace{.3cm}\textbf{#2}}\par
+	}
+	\newcommand{\formatstranditemTextOnly}{\thestrand.\thethreshold}
+	\newcommand{\formatthresholditem}{%
+		{\color{threshold}{\sffamily\formatstranditemTextOnly}}
+	}
+	\DeclareDocumentCommand{\threshold}{o +m}{%
+		\gdef\objectives@threshold{#1}%
+		\def\@currentlabel{\formatstranditemTextOnly}% make a \label command work after a question
+		\par\formatthresholditem \textbf{#2}\par
+	}
+	\newcommand{\formatthresholditemTextOnly}{\thestrand.\thethreshold.\theobjective}
+	\newcommand{\formatobjectivesitem}{%
+		{\color{objective}{\sffamily\small\formatthresholditemTextOnly}}
+	}
+	\DeclareDocumentEnvironment{objectives}{o}{
+		\nopagebreak%
+		\begin{list}{\formatobjectivesitem}{
+			\usecounter{objective}
+			\setlength{\leftmargin}{1.5cm}
+			\setlength{\itemsep}{0cm}
+			\setlength{\topsep}{0cm}
+			\renewcommand\p@enumi{\formatthresholditemTextOnly\ } % this does not do what I want...
+			\renewcommand\p@enumii{\formatthresholditemTextOnly\ }
+		}
+		\advance\@enumdepth\@ne
+	}{
+		\end{list}%
+	}
+
+	\DeclareDocumentEnvironment{subobjectives}{}{%
+		\begin{enumerate*}[label={\color{subobjective}{\sffamily(\alph*)}}]
+	}{
+		\end{enumerate*}
+	}
+	\DeclareDocumentCommand{\example}{+m}{%
+		{\color{example}{(e.g\mbox{.} {#1})}}%
+	}
+	\DeclareDocumentCommand{\indentpar}{+m}{%
+		\hspace{1cm}\begin{minipage}{\dimexpr\textwidth-1cm}%
+			#1%
+		\end{minipage}%
+	}
+	\renewenvironment{leftbar}{%
+		\def\FrameCommand{{\color{leftbar}{\vrule width 3pt \hspace{10pt}}}}%
+		\MakeFramed {\advance\hsize-\width \FrameRestore}%
+	}{\endMakeFramed}
+
+\makeatother
+%
+%
+%
+
+
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\br}{\mathbf{r}}
+\newcommand{\bx}{\mathbf{x}}
+\newcommand{\by}{\mathbf{y}}
+\newcommand{\bv}{\mathbf{v}}
+\newcommand{\ba}{\mathbf{a}}
+\newcommand{\bb}{\mathbf{b}}
+\newcommand{\bc}{\mathbf{c}}
+\newcommand{\bT}{\mathbf{T}}
+
+\newcommand{\red}[1] {{\color{red} #1}}
+
+
+
+						
+\begin{document}
+
+\section*{\LARGE Math 230 Learning Objectives}
+
+These learning objectives are organized in the following hierarchy.
+
+\vspace{.2cm}
+\begin{leftbar}
+\indentpar{
+	\vspace{-.7cm}
+	\strand[S]{Strand} This is a broad categorization, and all
+	strands are interconnected by providing necessary technical tools or
+	motivation to others.
+
+	\indentpar{
+		\vspace{.2cm}
+		\threshold[Thresh]{Threshold Concept} This is
+			a more focused categorization of objectives. In the interest
+			of time, specific learning objectives may be skipped, but all
+			threshold concepts must be covered to create a comprehensive
+			course.
+			\vspace{.1cm}
+			\begin{objectives}
+				\item Learning
+				Objective. These are specific topics, often presented
+				with examples, and should be used to construct parts of
+				lectures and individual exam questions.
+			\end{objectives}
+	}
+}
+\end{leftbar}
+\vspace{.2cm}
+
+The course should \textbf{not} be structured to cover these objectives in the order presented here. Rather, the organization here reflects larger themes of the course. The capstone strand for Math 230 is Optimization, and all other strands should be structured to motivate and provide computational tools for optimization objectives.
+
+\vspace{.25in}
+		
+
+\strand[V]{Visualizing in $\R^2$ and $\R^3$}
+	\threshold[Coord]{Coordinate Systems}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item Find the rectangular coordinates of a point specified with a description or a picture.
+			\item Plot points specified in rectangular coordinates.
+			\item Extract the $x$, $y$, or $z$ \emph{component} from the rectangular coordinates or picture of a point.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Plot points in $\R^2$ specified by polar coordinates.
+			\item Convert between polar and rectangular coordinates.
+			\item Find polar equations for circles centered at the origin and lines through the origin.
+			\item \red{Graph and recognize graphs of polar equations.}
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Plot a point in $\R^3$ given in cylindrical coordinates.
+			\item Convert between cylindrical and rectangular coordinates.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Plot a point in $\R^3$ given in spherical coordinates.
+			\item Convert from spherical coordinates to rectangular coordinates.
+			\item \red{Convert from rectangular coordinates to spherical coordinates.}
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Identify if two points are equal when given descriptions in a coordinate system
+				\example{are the points $(1,\pi)$ and $(-1,\pi)$ equal in polar coordinates? Are they equal in rectangular coordinates?}.
+			\item \red{Draw the coordinate surfaces for rectangular, polar, cylindrical, and spherical coordinates}
+				\example{plot in $\R^3$ the surface described in spherical coordinates by $\varphi=\frac{\pi}{4}$}.
+			\item \red{When presented with a geometric description of an object with straightforward symmetries, choose an appropriate coordinate system to describe it.}
+		\end{subobjectives}
+	\end{objectives}
+	
+	\threshold[ScalarFunc]{Scalar-valued functions of two (or more) variables}
+	\begin{objectives}
+		\item
+		\begin{subobjectives}
+			\item When given a formula for a function, find the largest domain on which it is defined.
+			\item Given the formula for a function and its domain, determine its range.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Define level curves and the traces of a function in a coordinate plane.
+			\item Draw a particular level curve from a formula for a function or a description or picture of its graph
+				\example{draw the level curve $f(x,y)=1$ for the function $f(x,y)=x^2y$}
+				\example{draw the level curve $f(x,y)=1$ where $f$ is the function whose graph is an upside-down right cone with vertex at $(-2,-3,0)$}.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Draw]{Visualize an object in $\mathbb{R}^3$ using a 2-d picture by perspective drawing}
+	\begin{objectives}
+		\item
+		\begin{subobjectives}
+			\item Match contour maps of functions with perspective drawings of their graphs.
+			\item Given plots of the level curves or traces of a function of two variables, plot its graph.
+			\item Plot the following quadric surfaces: ellipsoids, paraboloids, hyperbolic paraboloids, cones, and cylinders.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Sketch plots of planes and their normal vectors in $\R^3$.
+			\item \red{Draw informative pictures to assist in problem solving.}
+		\end{subobjectives} 
+		\item Plot a level surface of a function of three variables when the level surface is an implicit function of two variables or a quadric surface
+			\example{plot the $f(x,y,z)=4$ level surface of $f(x,y,z)=x^2+y^2-z$}
+			\example{plot the $f(x,y,z)=4$ level surface of $f(x,y,z)=2x^2+3y^2+4z^2$}.
+	\end{objectives}
+
+	\threshold[Rel]{Relationships between objects in $\mathbb{R}^3$}
+	\begin{objectives}
+		\item Find all points of intersections between two parameterized curves.
+		\item Find all points intersections between a parameterized curve and a level surface.
+		\item Find a parameterization for the line of intersection between two planes.
+	\end{objectives}
+
+	\threshold[Vect]{Vectors in $\R^2$ and $\R^3$}
+	\begin{objectives}
+		\item
+		\begin{subobjectives}
+			\item Define a vector as an object with a magnitude and a direction.
+			\item Plot and write vectors using rectangular coordinates.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Add, subtract, and scalar multiply vectors described in coordinates.
+			\item Estimate the result of adding, subtracting, and/or scalar multiplying vectors described in a picture
+				\example{given a picture of $\ba,\bb,\bc$ with the same initial point, graphically estimate whether $\Vert\ba+\bb+\bc\Vert<\Vert\bc\Vert$}.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Compute the norm of a vector given in coordinates or as its magnitude and direction.
+			\item Determine if a vector is a \emph{unit vector}.
+			\item Given a vector described in coordinates, produce a unit vector in the same direction.
+			\item Find the distance between two vectors.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Compute the dot product of two vectors described in coordinates or in terms of their magnitudes and directions.
+			\item Recognize a formula that looks like the result of a dot product and ``factor it'' as the dot product of two vectors.
+		\end{subobjectives}
+		\item Compute the angle between two vectors described in coordinates.
+		\item 
+		\begin{subobjectives}
+			\item Compute the projection of a vector onto another vector.
+			\item Compute the projection of a vector onto a coordinate plane.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item In terms of its magnitude and direction, define the cross product of two vectors in $\R^3$.
+			\item Compute the cross product of two vectors described in coordinates.
+			\item Use the magnitude of the cross product to compute the area of a parallelogram spanned by two vectors.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Define orthogonality of vectors.
+			\item Use the dot product to determine when two vectors described in coordinates are orthogonal.
+			\item When given one vector in $\R^2$ or one or two vectors in $\R^3$, produce another vector that is orthogonal to the original vector(s).
+		\end{subobjectives}
+		\item Use scalar multiplication or the cross product to determine when two vectors are parallel.
+		\item Determine whether an expression involving operations on vectors is well-defined, and if so, whether the result is a scalar or vector
+			\example{for vectors $\ba,\bb,\bc$ in $\R^3$ are the expressions $\ba\times(\bb\times\bc)$, $\ba\cdot(\bb\cdot\bc)$, and $(\ba\cdot\bb)+\bc$ scalars, vectors, or nonsense?}.
+	\end{objectives}
+
+\strand[P]{Parameterization}
+	\threshold[Struct]{Structure of parameterized curves}
+	\begin{objectives}
+		\item
+		\begin{subobjectives}
+			\item Parametrize lines in 2-d and 3-d when determined by two points, 
+				a point and a direction vector, or the intersection of two planes. 
+			\item Parameterize line segments between two points by parameterizing the 
+				line and giving bounds on the parameter. 
+			\item Work backwards from a parameterization of a line to recover points on the line and direction vectors.
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item When presented with an expression, determine if it is a parameterized curve 
+				\example{is $\begin{cases} x+y+z=0 \\ 2x-z=3\end{cases}$ a parameterization of a line?}. 
+			\item Distinguish between relations, functions, and parameterizations of curves 
+				\example{$y=x^2$ is a relation, $f(x)=x^2$ is a function, and $\br(t)=(t,t^2)$ is a parameterization}. 
+			\item State from memory the definition of a parameterized curve in 2-d and 3-d space.
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item Plot parameterized curves in 2-d and 3-d space. 
+			\item Translate between traces/projections and plots of parameterized curves, and vice versa.
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item From a parameterization, identify what space the associated curve is a subset of.
+			\item Given a parameterization of a 2-d curve with additional information, write a 
+				parameterization of the 3-d embedding 
+				\example{find a parameterization of the curve $C$ in $\R^3$ that lies in the plane $z=2$ and 
+				has $x,y$-coordinates given by $\br(t)=(t,t^2)$}.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Prop]{Properties of parameterized curves}
+	\begin{objectives}
+		\item Define and compute velocities and accelerations of parameterizations.
+		\item Use a piecewise functions to parameterize paths with a corners.
+	\end{objectives}
+	
+	\threshold[Reparam]{Reparameterization}
+	\begin{objectives}
+		\item Given a parametric curve, change its speed or time shift by producing a new parameterization.
+		\item Identify whether two equations parameterize the same curve.
+		\item  When appropriate, use the properties of polar/cylindrical/spherical coordinates to find 
+			parameterization of curves \example{use polar coordinates to obtain a parameterization for a circle; 
+			use cylindrical coordinates to obtain a parameterization for a helix}.
+		\item 
+		\begin{subobjectives}
+			\item State the definition of the arclength function and parameterization with respect to arclength.
+			\item Recognize in context the notation $s(t)$ as the arclength function. 
+			\item Find arclength parameterizations for lines and circles.
+		\end{subobjectives}
+	\end{objectives}
+
+
+\strand[D]{Derivatives}
+	\threshold[Partial]{Partial Derivatives}
+	\begin{objectives}
+		\item Given a formula for a function of several variables, compute partial derivatives of any order with specified notation (e.g.\ $\frac{\partial}{\partial x}$, $f_{xy}$, etc.\ ).
+		\item For a function $f:\R^n\rightarrow\R$ with $n>1$, explain why the notation $f'$ does not make sense by appealing to the fact that there are multiple ``rates of change'' for $f$.
+		\item
+		\begin{subobjectives}
+			\item Answer true/false questions about the equality of mixed partial derivatives of a function of several variables
+			\example{is $f_{xy}$ always equal to $f_{yx}$?}.
+			\item Use the equality of mixed partial derivatives to simplify the computation of a table of mixed partial derivatives 
+			\example{if asked to compute $f_{xyy}$, $f_{yxy}$, and $f_{yyx}$, only compute one and use that answer appropriately}.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Chain]{Chain Rule}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item \red{Given two formulas for functions, evaluate partial derivatives of their composition using the chain rule.} 
+			\item Given a table of values for functions and their partial derivatives, evaluate partial derivatives of their composition or determine if there is not enough information to do so.
+			\item Factor the chain rule formula as a dot product \red{and explain what the two vectors represent geometrically.}
+		\end{subobjectives}
+		\item Evaluate the derivative of a composition of functions expressed in a story problem using the chain rule.
+	\end{objectives}
+
+	\threshold[Grad]{Gradients}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item Given the formula for a function, evaluate the gradient.
+			\item Draw the gradient vector at a point for a function specified with level curves.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Given a formula for a function, identify directions of maximal change and zero change.
+			\item Given a formula for a function, identify the maximal rate of change as $\Vert \nabla f\Vert$.
+		\end{subobjectives}
+		\item Given a formula for a function of two or three variables, use the gradient to find normal and tangent lines to level curves and normal lines and tangent planes to level surfaces.
+	\end{objectives}
+
+	\threshold[Direct]{Directional derivatives}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item Given a formula for a function, evaluate the directional derivative as a dot product with the gradient.
+			\item Given a formula for a function, calculate a directional derivative as an application of the chain rule by composition with a parameterized line.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Interpret the directional derivative as a rate of change of the function.
+			\item Identify partial derivatives as special cases of directional derivatives.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Param]{Derivatives of parameterized curves}
+	\begin{objectives}
+		\item Evaluate the derivate of a parametric function in terms of derivatives of its component functions.
+		\item Define and compute velocities and accelerations of parameterizations.
+	\end{objectives}
+
+\strand[A]{Approximation}
+	\threshold[Lim]{Limits of functions of several variables}
+	\begin{objectives}
+		\item given a graph of a function $f:\R^2\rightarrow\R$ or a plot of its level curves, state where limits do and do not exist.
+		\item Given constraints on a function $f:\R^2\rightarrow \R$, draw level curves of a function that satisfies the constraints
+			\example{draw level curves of a function $f:\R^2\rightarrow\R$ that is continuous everywhere except for $(0,0)$}
+			\example{draw level curves of a bounded function $f:\R^2\rightarrow\R$ that is continuous everywhere except for $(0,0)$, where it has a non-removable discontinuity}.
+		\item
+		\begin{subobjectives}
+			\item Recognize that checking the limit of a multivariate function along some paths is insufficient evidence for existence of a limit, while checking all paths is sufficient evidence for existence of a limit
+				\example{for $f:\R^2\rightarrow\R$, if the limits along every line through $(0,0)$ exists and are equal, can you conclude $\lim_{(x,y)\to(0,0)}f(x,y)$ exists?}.
+			\item Recognize that if the limits of a multivariate function along two different paths do not agree, then the limit of the function does not exist
+				\example{for $f:\R^2\rightarrow\R$, $f(x,0)=\sin x$ and $f(0,y)=\cos y$. Does $\lim_{(x,y)\to(0,0)}f(x,y)$ exist? Why or why not?}.
+			\item \red{Recognize that the Squeeze Theorem can be used to conclude existence of a limit, but not the non-existence}
+				\example{for $f:\R^2\rightarrow\R$, you know $-x^2-y^2\le f(x,y)\le x^2+y^2$. Does $\lim_{(x,y)\to(0,0)}f(x,y)$ exist? Why or why not?}.
+			\item The value of a function close to a limit point need not affect the limit of the function at the limit point
+				\example{for $f:\R^2\rightarrow\R$, you know $\lim_{(x,y)\to(0,0)}f(x,y)$ exists and that $f(0.01,0.01)=3$ and for $g:\R^2\rightarrow\R$, you know $\lim_{(x,y)\to(0,0)}g(x,y)$ exists and that $g(0.01,0.01)=-4$. Is it possible that $\lim_{(x,y)\to(0,0)}f(x,y)=\lim_{(x,y)\to(0,0)}g(x,y)$? Why or why not?}.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Con]{Continuity}
+	\begin{objectives}
+		\item Recall the definition of continuity of a function of several variables. Recognize that multivariate polynomials are continuous everywhere. Recognize that sums, differences, products, quotients, and compositions of continuous functions are continuous on their domains.
+		\item Given a formula for a piecewise function, whose parts are elementary functions, identify which points in the domain need to be tested to determine continuity and which do not
+			\example{let $f(x,y)=\begin{cases} \frac{x^2-y^2}{x+y} &\,\,\textrm{if}\,\, (x,y)\neq (0,0) \\ 0 &\,\,\textrm{if}\,\,(x,y)=(0,0)\end{cases}$ and suppose you know $\lim_{(x,y)=(0,0)}f(x,y)=0$. Can you conclude that $f(x,y)$ is continuous at $(0,0)$?}
+			\example{let $f(x,y)=\begin{cases} 2x^2+y^2 &\,\,\textrm{if}\,\, x^2+y^2>1 \\ h(x,y) &\,\,\textrm{if}\,\, x^2+y^2\le 1\end{cases}$  where $h(x,y)$ is continuous. If you know $\lim_{(x,y)\to(1,0)}f(x,y)$ exists, can you conclude that $f(x,y)$ is continuous at $(1,0)$? At what points must you verify the continuity of $f(x,y)$?}.
+		\item 
+		\begin{subobjectives}
+			\item Given a graph of a function of two variables, conclude where the function is continuous and where it is discontinuous.
+			\item Given a plot of the level curves of a function of two variables that features a discontinuity, conclude where the function is discontinuous.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Der]{Derivatives}
+	\begin{objectives}
+		\item Approximate the value of a partial derivative or directional derivative from a table of values of the function.
+		\item For a function of two variables, approximate the value of a partial derivative or directional derivative from a plot of level curves of the function.
+	\end{objectives}
+
+	\threshold[TanL]{Tangent lines to parameterized curves}
+	\begin{objectives}
+		\item Find a formula for the tangent line at a point given a formula for a parameterization.
+		\item Use a tangent line to approximate values of a parameterization near the point of tangency.
+		\item Identify where tangent lines exists for a piecewise smooth path.
+	\end{objectives}
+
+	\threshold[TanP]{Tangent planes to surfaces}
+	\begin{objectives}
+		\item Find the formula for the tangent plane to the graph of a function of two variables or a level surface of a function of three variables.
+		\item
+		\begin{subobjectives}
+			\item Use a tangent plane to approximate values of a function of two variables near the point of tangency.
+			\item Be familiar with the vocabulary \emph{linear approximation}, \emph{tangent plane}, and \emph{first-order approximation}.
+		\end{subobjectives}
+		\item
+		\begin{subobjectives}
+			\item Define differentiability of a function of two variables as having a ``good'' tangent plane/linear approximation at a point, where ``good'' is left to intuition.
+			\item Identify that corners/cusps admit no ``good'' linear approximations.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Tay]{Taylor polynomials of degree two}
+	\begin{objectives}
+		\item Find the formula for the Taylor polynomial of degree two given the formula for a function of two variables.
+		\item Use the second-order Taylor polynomial to approximate values of the function near the point of tangency.
+		\item Identify whether first-order or second-order approximations given desired information about a function and/or its partial derivatives
+			\example{for an unknown function $f:\R^2\rightarrow\R$, the linear approximation to $f$ at $(1,1)$ is given by $L(x,y)=2x+3y+4$. Let $g(x,y)=(x^2,y^3)$. If possible, compute $\frac{\partial}{\partial x}(f\circ g)(1,1)$ or explain why you cannot. If possible, compute $\frac{\partial^2}{\partial x^2}(f\circ g)(1,1)$ or explain why you cannot.}
+			\example{the second-order Taylor approximation of $f:\R^2\rightarrow\R$ is $T(x,y)=2x-y$. Can you conclude $f$ is a plane? Why or why not?}.
+	\end{objectives}
+
+
+\strand[O]{Optimization}
+	\threshold[Dist]{Linear distance optimization}
+	\begin{objectives}
+		\item 
+		\begin{subobjectives}
+			\item Using projections, calculate closest distance between parallel planes given formulas for both. 
+			\item Given distances, find missing information in formulas. \example{find a plane of distance 5 from the plane $2x-y+3z=4$.}
+		\end{subobjectives}
+
+		\item 
+		\begin{subobjectives}
+		\item Using projections, calculate closest distance between a \emph{point} and a \emph{line} given formulas for both.
+			\item Given distances, find missing information in formulas 
+				\example{find a number $a$ so that the point $\bx=(1,a)$ has distance 5 from the line $\br(t)=(3t-1,2t+3)$}
+		\end{subobjectives}
+			 
+		\item 
+		\begin{subobjectives}
+		\item Using projections, calculate closest distance between a \emph{point} and a \emph{plane} given formulas for both.
+			\item Given distances, find missing information in formulas 
+				\example{find a number $a$ so that the point $\bx=(1,2,a)$ has distance 5 from the line $2x-y+3z=4$}.
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[Param]{Parameterized curves}
+	\begin{objectives}
+		\item
+		\begin{subobjectives}
+			\item Given a parameterized curve, set up an integral to find the arclength of the curve.
+			\item Given a formula/table for arclength of a curve with respect to time, find/approximate 
+				the speed of the parameterization.
+			\item Use that arclength is independent of parameterization to make substitutions/simplifications 
+				to evaluate arclength
+				\example{Find the arclength of $\br(t)=(\cos(t^3),\sin(t^3))$ from $t=0$ to $t=1$}.
+			\item Find local linear approximation to arclength via geometric understanding and relate the 
+				velocity vector to local arclength
+				\example{estimate the arclength from $t=0$ to $t=\epsilon$ by $\epsilon\vert\bv(0)\vert$; 
+				given a parameterization $\br(t)$ and $\br'(0)=(3,7)$, find the approximate arclength between $t=0$ and $t=0.1$}.
+			\item \red{Be able to answer a true/false question about whether a ``typical'' parameterization 
+				has an elementary arclength formula.}
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item Visually identify points on a curve with higher/lower curvature. 
+			\item Find the curvature of a circle. 
+			\item Draw an approximate (osculating) circle of best fit.
+			\item \red{Be able to recite a formula for curvature, 
+				$\kappa(t)=\left\vert\frac{d\bT}{ds}\right\vert$ or $\kappa(t)=\vert \br''(t)\vert$ 
+				where $\br(t)$ is an arclength parameterization.}
+			\item Apply this formula when given an arclength parameterization or the first 
+				or second derivative of an arclength parameterization.
+			\item \red{There will be \textbf{no} expectation to compute the curvature 
+				of a non-arclength parameterized curve.}
+		\end{subobjectives}
+	\end{objectives}
+
+	\threshold[ScalarFunc]{Scalar-valued functions of several variables}
+	\begin{objectives}
+		\item State the definition of local extrema using an inequality.
+			
+		\item
+		\begin{subobjectives}
+			\item Compute critical points from formulas of a function or its partial derivatives.
+			\item Estimate critical points using a table of values of a function or its partial derivatives.
+		\end{subobjectives}
+
+		\item Interpret critical points geometrically in terms of horizontal tangent planes 
+			\example{if $f:\R^2\rightarrow\R$ is differentiable and has a critical point at $(3,1)$, find the 
+			tangent plane to $z=f(x,y)$ at $(3,1,f(3,1))$}.
+			
+		\item
+		\begin{subobjectives}
+			\item Given a formula or a table of values of partial second-order partial derivatives, 
+				classify critical points as local extrema or saddle points using the Second Derivative Test.
+			\item  Given a simple formula that fails the Second Derivative Test, use arguments about 
+				positivity/first derivatives to classify the critical point 
+				\example{classify the critical point of $f(x,y)=x^2+y^4$}.
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item Identify and classify critical points based on plots of surfaces or level curves.
+			\item Draw level curves of a surface with a saddle point or local max/min without reference to a formula.
+		\end{subobjectives}
+		
+		\item
+		\begin{subobjectives}
+			\item  Given a formula that describes a surface, use the gradient to find a unit vector that 
+				maximizes the directional derivative at a given point.
+			\item Given a formula for a surface and a description in words 
+				(e.g.\ ``steepest increase,'' ``steepest decrease,'' ``no change''), use the gradient 
+				to find the relevant direction.
+		\end{subobjectives}
+		
+		\item Given overlaid plots of level curves for a function and a constraint curve, estimate the location
+			and values of global extrema, or explain why none exist.
+
+		\item
+		\begin{subobjectives}
+			\item Given a formula for a function $f(x_1,\ldots,x_n)$ and a formula/description of a constraint 
+				level set $g(x_1,\ldots,x_n)=c$, use Lagrange multipliers to find extrema.
+			\item Given an optimization problem as a description of a function and/or constraint in a story problem, 
+				produce appropriate formulas and apply the method of Lagrange multipliers.
+		\end{subobjectives}
+	\end{objectives}
+
+
+\end{document}  

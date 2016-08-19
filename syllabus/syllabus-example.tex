@@ -1,0 +1,284 @@
+% Adapted from layout by Jacob Vanderplas and Gael Varoquaux
+%  http://gael-varoquaux.info
+%
+
+\documentclass[12pt]{article}
+\usepackage{fontspec}
+\usepackage{titlesec}
+\usepackage[letterpaper,
+	    top=1.5cm,
+	    left=1.35cm,
+	    width=18.2cm,
+	    bottom=2cm
+	    ]{geometry}
+\usepackage{color,hyperref}
+\usepackage{amsfonts}
+\usepackage{enumitem}
+\usepackage{calc}
+\usepackage{multirow,bigdelim}
+\usepackage{changepage}
+\usepackage{graphicx}
+\usepackage{fancyhdr}
+
+\definecolor{deepblue}{rgb}{0,.2,.5}
+\definecolor{darkblue}{rgb}{0,.1,.3}
+\definecolor{deeppurple}{rgb}{.36,.11,.56}
+\definecolor{myblue}{rgb}{.01,0.21,0.71}
+\definecolor{mypurple}{rgb}{.44,0.27,0.51}
+\definecolor{gray}{rgb}{.5, .5, .5}
+\definecolor{darkyellow}{rgb}{.46, .49, 0}
+
+\hypersetup{pdftex,  % needed for pdflatex
+  breaklinks=true,  % so long urls are correctly broken across lines
+  colorlinks=true,
+  urlcolor=mypurple,
+  %linkcolor=darkblue,
+  %citecolor=darkgreen,
+  }
+
+\usepackage{ifxetex}
+
+\ifxetex
+  \usepackage{fontspec}
+
+  %\fontspec{Fontin}[
+  %	  SmallCapsFont={}
+  %]
+
+  \defaultfontfeatures{Ligatures=TeX} % To support LaTeX quoting style
+  %\setmainfont{fonts/Fontin-Sans-R-45b.otf}[
+%	BoldFont = Fontin-Sans-B-45b.otf,
+%	ItalicFont = Fontin-Sans-I-45b.otf,
+%	BoldItalicFont = Fontin-Sans-BI-45b.otf,
+%	SmallCapsFont = Fontin-Sans-SC-45b.otf
+ % ]
+  %\setsansfont{Fontin Sans}
+  \setromanfont{Linux Libertine}
+  \setsansfont{GeosansLight}
+\else
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+\fi
+
+
+\def\mydot{\textcolor{deeppurple}{\rule{1ex}{1ex}}}
+\newlength\sidebarwidth
+\setlength\sidebarwidth{3cm}
+\newcommand{\topic}[3][]%
+	 {\pagebreak[2]%
+	 \vspace{.2cm}
+	 \begin{minipage}{\textwidth}
+         \phantomsection\addcontentsline{toc}{section}{#1}%
+         \nopagebreak\hspace{0in}%
+         \nopagebreak\begin{minipage}[t]{\sidebarwidth - .2cm}
+         \raggedleft \bf\sc 
+	 \color{deeppurple}{\large #2}
+	 \end{minipage}%
+	 \hfill
+	 \begin{minipage}[t]{\linewidth - \sidebarwidth}
+	 \nopagebreak{\color{deeppurple}%
+		    \rule{0pt}{\baselineskip}%
+		    \rule{\linewidth}{2.5pt}%
+		    \llap{\raisebox{.3\baselineskip}{\sf #1}}%
+		    \vspace*{.1\baselineskip}%
+		    }%
+	 #3%
+	 \end{minipage}
+	 \end{minipage}}
+
+	 \newcommand{\subtopic}[3][]
+	 {\begin{minipage}{\textwidth}
+	 \vspace*{.4\baselineskip}
+         \nopagebreak\hspace{0in}%
+         \nopagebreak\begin{minipage}[t]{\sidebarwidth - .2cm}
+	 % Super posh: using semi-bold condensed fonts. Works only with
+	 % lmodern
+         \raggedleft {\sf\fontseries{sbc}\selectfont #2}
+	 %{\small\sl\\[-0.2\baselineskip] #1}
+         {\\[-0.2\baselineskip] \textcolor{gray}{\footnotesize #1}}
+	 \end{minipage}%
+	 \hfill
+	 \begin{minipage}[t]{\linewidth - \sidebarwidth}
+	 #3%
+	 \end{minipage}%
+	 \vspace*{.2\baselineskip plus 1\baselineskip minus
+	 .2\baselineskip}%
+	 \end{minipage}}
+
+\newenvironment{mywidth}{\begin{adjustwidth}{\sidebarwidth}{}}{\end{adjustwidth}}
+
+\parskip = 0.1in
+\parindent = 0.0in
+
+\titlespacing*{\subsection}{0pt}{.1in}{0in}
+\textheight=10in
+\topmargin=-1.3in
+
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0pt}
+\rfoot{\footnotesize\it \copyright\,Jason Siefken, 2016 \ \makebox(30,5){\includegraphics[height=1.2em]{by-sa.pdf}}}
+
+\begin{document}
+	{
+		\begin{minipage}[t]{\textwidth}
+			\color{deeppurple}\sc {\Huge Math 281-3}
+			\hfill Accelerated Mathematics for ISP: First Year
+			\hfill Spring 2016
+
+			\vspace{-8pt}
+			\color{deeppurple}{\rule{\columnwidth}{3pt}}
+
+			\vspace{.2cm}
+		\end{minipage}
+	}
+	{
+		\begin{minipage}[t]{.5\textwidth}
+			\begin{itemize}[leftmargin=2cm, itemsep=0ex, parsep=.5ex, labelindent=-4ex, %
+		  label={}]
+	  			%\item[{\sf\color{gray}{Course:}}] MATH 281-2 %{\footnotesize [CRN 22031]}
+				\item[{\sf\color{gray}{Instructor:}}] Jason Siefken\\ (\url{siefkenj@math.northwestern.edu})
+				\item[{\sf\color{gray}{Class:}}] MTWF 11:00--11:50 in ISP 203
+				\item[{\sf\color{gray}{Dicussion Section:}}] Th 11:00--11:50 in ISP 203
+				\item[{\sf\color{gray}{Webpge:}}] {\footnotesize \url{http://www.math.northwestern.edu/~siefkenj/math281-3}}
+			\end{itemize}
+		\end{minipage}
+		\begin{minipage}[t]{.5\textwidth}
+			\begin{itemize}[leftmargin=2.5cm, itemsep=0ex, parsep=.5ex, labelindent=-4ex, %
+		  label={}]
+				\item[{\sf\color{gray}{Office:}}] Lunt 213
+				\item[{\sf\color{gray}{Office Hours:}}] T 1:00--2:00, W 2:00--4:00, or by appointment
+				\item[{\sf\color{gray}{Textbook:}}] {\small {\it Introduction to Linear Algebra
+					for Science and Engineering} Second Edition, by Norman and Wolczuk}
+			\end{itemize}
+		\end{minipage}
+		\vspace{.1cm}
+		\color{deeppurple}{\hrule}
+	}
+
+	\vspace{.2cm}
+	
+
+	\small
+	\hspace{\sidebarwidth}\begin{minipage}[t]{\textwidth - \sidebarwidth}
+	{
+		\parskip=.1cm
+	Math 281-3 finished the first year of our accelerated dive into mathematics by exploring
+	Linear Algebra, the theory that has been lurking in the background of much
+	of what we've done over the last two terms.
+	
+	Linear Algebra is the study of vectors,
+	``flat spaces'' like lines and planes, and linear transformations like 
+	rotations and scalings.  Vectors originated in the study of physics and
+	the 3D world, but through the mathematical practice of \emph{abstraction},
+	we now use vectors to represent non-spacial things like music in addition
+	to computer graphics and physical forces.
+	
+	Transformations are functions that move vectors around, and in this class
+	we will focus on \emph{linear transformations}.  Why?  Because although
+	mankind has strived to understand the non-linear phenomena of the universe,
+	we haven't gotten very far---the non-linear equations governing fluid flow
+	still haven't been solved!  However, we have a complete theory of linear
+	equations and linear transformations.  Our approach to answering general questions
+	about the universe is often to convert the problem into a linear one---one that we
+	can actually understand.
+	}
+	\end{minipage}
+	
+	\topic{Learning Outcomes}{
+		After taking this course, you will be able to:
+
+		\vspace{-.4cm}
+		\begin{itemize}[leftmargin=1cm, itemsep=0ex, parsep=.5ex, labelindent=-4ex, label={\mydot}]
+			\item Solve systems of linear equations and matrix equations, write vectors
+				in different bases, use the geometry of subspaces
+				like row spaces, column spaces, null spaces, and eigen spaces to solve
+				problems, and switch between geometric and algebraic points
+				of view to aid problem solving.
+			\item Work independently to understand concepts and procedures that have
+				not been previously explained to you.
+			\item Clearly and correctly express the mathematical ideas of linear algebra
+				to others.
+		\end{itemize}
+	}
+
+
+	\topic{Prerequisites}{
+		To be prepared for this course, you should have 
+		a solid understanding of vectors in $\mathbb {R}^n$, dot and cross products, and complex
+		numbers.
+	}
+	
+	\topic{To Succeed}{~}
+
+		\begin{mywidth}
+			Learning is hard! It is exercise for the mind, and like exercise,
+			when you're doing it, it feels pretty uncomfortable (and if it
+			doesn't, you're probably doing it wrong).  Here are some
+			tips to help you succeed academically (getting the grade you want)
+			and intellectually (learning the most you can).
+			
+			\vspace{-.4cm}
+			\begin{itemize}[leftmargin=1cm, itemsep=0ex, parsep=.5ex, labelindent=-4ex, label={\mydot}]
+				\item Form a regularly-meeting study group of 3--4 people.  Having
+					others studying around you will help you study, and having someone
+					to talk about confusing problems with will help you both
+					productively struggle (struggling with others is how real-world
+					problems are solved).
+
+				\item Read the textbook \emph{before} class.  In class we will be
+					working on problems that we haven't gone over before.
+					If you expose yourself to the concepts 
+					prior to class, you'll get a lot more out of it.
+
+				\item Visit the tutors, paid for by the university,
+					at the {\bf Calculus, Chemistry and Physics Resource Room} at 
+					Tech HG04 and Allison 1021 (\url{http://www.math.northwestern.edu/undergraduate/tutoring-advising/tutoring/}).
+					Also, take advantage of the ISP upperclassmen.  They've been through
+					this struggle before!
+			\end{itemize}
+		\end{mywidth}
+
+	\topic{Assessment}{~}
+
+	\subtopic[15\%]{Midterm 1}{In-class midterm on Thursday, April 21.}
+	\subtopic[15\%]{Midterm 2}{In-class midterm on Thursday, May 12.}
+	\subtopic[30\%]{Homework and Quizzes}{
+		{\bf Homework:} Homework will be assigned throughout the term and typically
+			due at the beginning of class on Thursdays.  You are encouraged
+			to work together to solve homework problems, but \emph{you} must write
+			up your solutions to be turned in.
+			
+			Some homework will focus on explaining problems rather 
+			than just ``solving'' them.  If you'd like your write-ups
+			to look like a pro's, I suggest you use the \LaTeX{} typesetting software.
+			\LaTeX{} is the industry-standard for scientific write-ups
+			in math, physics, chemistry, computer science, and engineering.  It has a
+			learning curve but is well worth the effort.  See the course webpage
+			for details.
+
+			\vspace{.2cm}
+			{\bf Quizzes:} Quizzes will take place at the beginning of discussion section on Thursdays
+			(though not necessarily every Thursday).  They may be announced or unannounced.
+		}
+	\subtopic[40\%]{Final}{A comprehensive 2 hour final will be held on Monday, June 6 at 3:00--5:00 PM in
+	ISP 203.}
+	
+	\topic{Policies}{
+		I have carefully planned the midterm dates, so please ensure you are available 
+		for each midterm. If you miss a midterm for a justified reason (illness, 
+		family affliction, or other reason recognized by Northwestern's policies), 
+		I can excuse it for you by weighting other tests more heavily. 
+		However, \emph{there will be no makeup exams}.
+
+		If you have a disability/health consideration that may require 
+		accommodations, please contact the Office of Services for Students with Disabilities 
+		and register for AccessibleNU as soon as possible.  All information will remain confidential.
+		\mbox{\url{http://www.northwestern.edu/accessiblenu}}
+
+		For the rest of Northwestern's polices, please see
+		\url{http://policies.northwestern.edu}
+	}
+
+
+\end{document}
+
