@@ -18,3 +18,9 @@ suitable for authoring class notes as well.
 ### `syllabus`
 
 My attempt at building a visually attractive and professional-looking syllabus.
+
+### `peer-assisted-reflection`
+
+A form to facilitate the *Peer-Assisted Reflection* process, based on the work of
+Daniel Reinholz.  All icons have been convered from `svg` to tikz using `svg2tikz`.
+Therefore, the `tex` file is all you need to compile the document.
